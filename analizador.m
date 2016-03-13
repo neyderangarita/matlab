@@ -109,7 +109,9 @@ TipoPrueba=8;
 case 9 ; 
 TipoPrueba=9;
 case 10;
-TipoPrueba=10;       
+TipoPrueba=10;
+case 11;
+TipoPrueba=11;
 end
 
 handles.TipoPrueba = TipoPrueba;
@@ -3977,6 +3979,343 @@ if(pathname)
             set(handles.mensaje,'Visible','on');
             guidata(hObject,handles);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%             
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+    elseif  handles.TipoPrueba == 11
+    
+        %%%%%%%%%%%% PRUEBA TU SABER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%5%%%%% INICIALIZAR VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%
+        handles.imagenes = imagenes;
+        acumulado_respuestas=[];  
+        codigo='';  
+        CODIGOS = [];   
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+        for fotos=1:length(handles.imagenes)
+            %%%%%%%inicio obtener lor recortes con las respuestas%%%%%%%%%%
+            [dilatar] = marcas_tusaber(handles.imagenes{fotos});
+            sesion = 1;
+            for recorte=1:length(dilatar);
+                if recorte==1
+                    Ne=8;
+                    Largo_pregunta=size(dilatar{recorte},2)/Ne;
+                    Ancho_Pregunta=size(dilatar{recorte},1);
+                else
+                    Ne=25;
+                    Largo_pregunta=size(dilatar{recorte},2)/Ne;
+                    Ancho_Pregunta=size(dilatar{recorte},1);
+                end 
+                %%%%%%%%fin obtener lor recortes con las respuestas%%%%%%%%%%%%
+                for b=1:Ne
+                    %%%%% Recortar la columna de cada imagen %%%%%%%%%%%%%%%%%
+                    [pregunta] = recortar_columna_pregunta_tusaber(dilatar , b ,recorte, Largo_pregunta, Ancho_Pregunta);                
+                    if recorte==1
+                        opciones=10;
+                        [numero_respuesta] = clasificacion_tusaber(pregunta,opciones,b,recorte);
+                        AUX1 = codigo;         
+                        codigo = [AUX1 num2str(numero_respuesta-1)];      
+                        if b==8
+                            CODIGOS(fotos) = str2double(codigo);
+                            codigo='';
+                            break
+                        end
+                    else
+                        opciones=4;
+                        [numero_respuesta] = clasificacion_tusaber(pregunta,opciones,b,recorte);
+                        AUX1 = acumulado_respuestas;
+                        acumulado_respuestas = [AUX1 numero_respuesta];
+                        if b==25
+                            break
+                        end
+                    end;
+                    
+                end;      
+             end;
+             clear AUX1 Ancho_Pregunta Largo_pregunta Ne Numero_marcas dilatar numero_respuesta opciones pregunta recorte
+             %%%%%%%%%%%%%% INSERTAR EN LA TABLA PREGUNTAS_SABER_SESION2%%%  
+             %%% INGRESAR EN LA BASE DE DATOS LOS RESULTADOS  %%%%%%%%%%%%%         
+             %%%%%PREGUNTAR SI YA ESTA EL CODIGO DEL ESTUDIANTE EN LA TABLA
+             %% SIMULACRO SABER SI YA ESTA UPDATE SI NO ESTA, INSERTAR %%%%  
+             %% LO MISMO PARA LA TABLA PREGUNTAS SESION  %%%%%%%%%%%%%%%%%%
+             for i=1:4
+                 if i==1            
+                     Elcodigo = isnan(CODIGOS(fotos));
+                     if Elcodigo==1
+                         answer =inputdlg( strcat('CODIGO FOTO: ', num2str(fotos)), 'Ingresa el codigo. de la foto: ');
+                         similar{i} = str2double(answer{1});
+                         CODIGOS = str2double(answer{1});
+                     else
+                         similar{i}=CODIGOS(fotos);
+                     end           
+                 end
+                 if i==2
+                     similar{i}=handles.TipoPrueba;
+                 end     
+                 if i==3
+                     similar{i}=get(handles.simulacro,'String'); %Almacenar valor ingresado
+                 end
+                 
+                 if i==4
+                     dia=get(handles.dia,'String'); %Almacenar valor ingresado
+                     mes=get(handles.mes,'String'); %Almacenar valor ingresado
+                     ano=get(handles.ano,'String'); %Almacenar valor ingresado
+                     
+                     fecha=strcat(dia,'/',mes,'/',ano);
+                     similar{i}=fecha;
+                 end
+             end
+             
+             %%%%%%%%%%%%%%%%%%%   consultar si ya esta en la base de datos %%%
+             %%%%%%%%%%%%%%%%%%%  Saber si es sesion1 o sesion2  %%%%%%%%%%%%%%
+             s.DataReturnFormat = 'cellarray';
+             s.ErrorHandling = 'store';
+             s.NullNumberRead = 'NaN';
+             s.NullNumberWrite = 'NaN';
+             s.NullStringRead = 'null';
+             s.NullStringWrite = 'null';
+             s.JDBCDataSourceFile = '';
+             s.UseRegistryForSources = 'yes';
+             s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+             s.DefaultRowPreFetch = '10000';
+             setdbprefs(s)
+             conn = database('MS Access Database','','password');
+             codigo_simulacro = num2str(similar{1});
+             tipo = num2str(similar{2});
+             simulacro = num2str(similar{3});
+             %Identificacion_Prueba : es el identificador del simulacro creado o diseñado....
+             e = exec(conn,['SELECT ALL codigo_estudiante FROM Simulacro_saber WHERE codigo_estudiante = ' '''' codigo_simulacro ''''  'AND codigo_prueba = ' '''' tipo '''' 'AND Identificacion_Prueba = ' '''' simulacro '''']);
+             e = fetch(e);
+             close(e)
+             pepe_simulacros = e.Data;
+             close(conn)
+             
+             s.DataReturnFormat = 'cellarray';
+             s.ErrorHandling = 'store';
+             s.NullNumberRead = 'NaN';
+             s.NullNumberWrite = 'NaN';
+             s.NullStringRead = 'null';
+             s.NullStringWrite = 'null';
+             s.JDBCDataSourceFile = '';
+             s.UseRegistryForSources = 'yes';
+             s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+             s.DefaultRowPreFetch = '10000';
+             setdbprefs(s)
+             conn = database('MS Access Database','','password');
+             codigo = num2str(similar{2});
+             bd_sesion = num2str(sesion);
+             e = exec(conn,['SELECT ALL codigo_estudiante FROM Preguntas_Saber_Sesion2 WHERE codigo_estudiante = ' '''' codigo_simulacro '''' 'AND sesion = ' '''' bd_sesion '''']);
+             e = fetch(e);
+             close(e)
+             pepe_preguntas = e.Data;
+             close(conn)
+             sinresultados = 'No Data';
+             
+             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+             %%%%%%%%%   ESTE ES EL CASO DE ESTUDIANTES NUEVOS O QUE NO HAN SIDO
+             %%%%%%%%%   REGISTRARDOS AUN.    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+             if (strcmp(pepe_simulacros,sinresultados)==1) && (strcmp(pepe_preguntas,sinresultados)==1)
+                 
+                 %%%% INSERTAR SIMILAR EN LA TABLA Simulacro_saber %%%%%%%%%%%%%
+                 % Set preferences with setdbprefs.
+                 s.DataReturnFormat = 'cellarray';
+                 s.ErrorHandling = 'store';
+                 s.NullNumberRead = 'NaN';
+                 s.NullNumberWrite = 'NaN';
+                 s.NullStringRead = 'null';
+                 s.NullStringWrite = 'null';
+                 s.JDBCDataSourceFile = '';
+                 s.UseRegistryForSources = 'yes';
+                 s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+                 s.DefaultRowPreFetch = '10000';
+                 setdbprefs(s)
+                 conn = database('MS Access Database','','password');
+                 % Write data to database.
+                 insert(conn,'Simulacro_saber',{'codigo_estudiante','Codigo_Prueba','Identificacion_Prueba','fecha'},similar)
+                 % Close database connection.
+                 close(conn)
+                 %%%%%%%%%%%%%% INSERTAR EN LA TABLA PREGUNTAS PRIMERA VEZ%%%%%%
+                 
+                 bd = [1,acumulado_respuestas];  % ingresar la sesion en este caso2
+                 %nuevo = [componente_flexible,bd];                    % ingresar el componente flexible
+                 
+                 bd = [str2num(similar{3}),bd];
+                 
+                 bd = [similar{1},bd];           % ingresar el codigo
+                 
+                 % Set preferences with setdbprefs.
+                 s.DataReturnFormat = 'cellarray';
+                 s.ErrorHandling = 'store';
+                 s.NullNumberRead = 'NaN';
+                 s.NullNumberWrite = 'NaN';
+                 s.NullStringRead = 'null';
+                 s.NullStringWrite = 'null';
+                 s.JDBCDataSourceFile = '';
+                 s.UseRegistryForSources = 'yes';
+                 s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+                 s.DefaultRowPreFetch = '10000';
+                 setdbprefs(s)
+                 % Make connection to database.  Note that the password has been omitted.
+                 % Using ODBC driver.
+                 conn = database('MS Access Database','','password');
+                 % Write data to database.
+                 insert(conn,'Preguntas_Saber_Sesion2',{'codigo_estudiante','Identificacion_Prueba','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 %insert(conn,'Copia_Preguntas_Saber_Sesion2',{'codigo_estudiante','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 % Close database connection.
+                 close(conn)
+                 similar=[];
+                 codigo='';
+                 AUX1=[];
+                 acumulado_respuestas=[];
+                 %%EN EL CASO DE QUE YA ESTEN REGISTRADOS  EN SIMULACROS
+                 %%OSEA YA PRESENTARIN LA PRUEBA PERO LA VAN A REPETIR ESO
+                 %%QUIERE DECIR QUE NO APARECEN EN PREGUNTAS PORQUE
+                 %%%%%  OBVIAMENTE SE BORRAN  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                 
+             elseif (strcmp(pepe_simulacros,sinresultados)==0) && (strcmp(pepe_preguntas,sinresultados)==1)
+                 
+                 %%%%%%%%%%%% ACTUALIZAR EN LA TABLA SIMULACROS %%%%
+                 s.DataReturnFormat = 'cellarray';
+                 s.ErrorHandling = 'store';
+                 s.NullNumberRead = 'NaN';
+                 s.NullNumberWrite = 'NaN';
+                 s.NullStringRead = 'null';
+                 s.NullStringWrite = 'null';
+                 s.JDBCDataSourceFile = '';
+                 s.UseRegistryForSources = 'yes';
+                 s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+                 s.DefaultRowPreFetch = '10000';
+                 setdbprefs(s)
+                 conn = database('MS Access Database','','password');
+                 fecha = similar{4};
+                 % Read data from database.
+                 e = exec(conn,['UPDATE Simulacro_saber SET fecha = ' '''' fecha '''' ' WHERE codigo_estudiante = ' '''' codigo_simulacro ''''  'AND codigo_prueba = ' '''' tipo '''']);
+                 e = fetch(e);
+                 close(e)
+                 
+                 bd = [1,acumulado_respuestas];  % ingresar la sesion en este caso2
+                 
+                 bd = [str2num(similar{3}),bd];
+                 %nuevo = [componente_flexible,bd];                    % ingresar el componente flexible
+                 bd = [similar{1},bd];           % ingresar el codigo
+                 
+                 % Set preferences with setdbprefs.
+                 s.DataReturnFormat = 'cellarray';
+                 s.ErrorHandling = 'store';
+                 s.NullNumberRead = 'NaN';
+                 s.NullNumberWrite = 'NaN';
+                 s.NullStringRead = 'null';
+                 s.NullStringWrite = 'null';
+                 s.JDBCDataSourceFile = '';
+                 s.UseRegistryForSources = 'yes';
+                 s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+                 s.DefaultRowPreFetch = '10000';
+                 setdbprefs(s)
+                 % Make connection to database.  Note that the password has been omitted.
+                 % Using ODBC driver.
+                 conn = database('MS Access Database','','password');
+                 % Write data to database.
+                 insert(conn,'Preguntas_Saber_Sesion2',{'codigo_estudiante','Identificacion_Prueba','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 %insert(conn,'Copia_Preguntas_Saber_Sesion2',{'codigo_estudiante','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 %insert(conn,'Copia_Preguntas_Saber_Sesion2',{'codigo_estudiante','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 % Close database connection.
+                 close(conn)
+                 similar=[];
+                 codigo='';
+                 AUX1=[];
+                 acumulado_respuestas=[];
+             else
+                 %%ES EL CASO EN QUE ESTA EN SIMULACROS, PERO TAMBIEN EN
+                 %%PREGUNTAS ESTO PUEDE PASAR PORQUE YA LO PRESENTO, PERO NO
+                 %%SE ANALIZO QUERIA VERIFICAR SI LOS DATOS ESTANBAN BIEN O
+                 %%ALGO ENTOCES SOLO SE ACTUALIZAN
+                 
+                 %%%%%%%%%%%%%% ACTUALIZAR EN LA TABLA PREGUNTAS %%%%%%%%%%%
+                 bd = [1,acumulado_respuestas];  % ingresar la sesion en este caso2
+                 %nuevo = [componente_flexible,bd];                    % ingresar el componente flexible
+                 bd = [str2num(similar{3}),bd];
+                 
+                 bd = [similar{1},bd];           % ingresar el codigo
+                 
+                 s.DataReturnFormat = 'cellarray';
+                 s.ErrorHandling = 'store';
+                 s.NullNumberRead = 'NaN';
+                 s.NullNumberWrite = 'NaN';
+                 s.NullStringRead = 'null';
+                 s.NullStringWrite = 'null';
+                 s.JDBCDataSourceFile = '';
+                 s.UseRegistryForSources = 'yes';
+                 s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+                 s.DefaultRowPreFetch = '10000';
+                 setdbprefs(s)
+                 conn = database('MS Access Database','','password');
+                 % Read data from database.
+                 bd_sesion = num2str(sesion);
+                 
+                 %e = exec(conn,['DELETE FROM Preguntas_Saber_Sesion2 WHERE codigo_estudiante = ' '''' codigo_simulacro ''''  'AND sesion = ' '''' bd_sesion '''']);
+                 e = exec(conn,['DELETE FROM Preguntas_Saber_Sesion2 WHERE codigo_estudiante = ' '''' codigo_simulacro ''''  'AND Identificacion_Prueba = ' '''' simulacro ''''  'AND sesion = ' '''' bd_sesion '''']);
+                 e = fetch(e);
+                 close(e)
+                 
+                 %e = exec(conn,['DELETE FROM Copia_Preguntas_Saber_Sesion2 WHERE codigo_estudiante = ' '''' codigo_simulacro ''''  'AND sesion = ' '''' bd_sesion '''']);
+                 e = exec(conn,['DELETE FROM Copia_Preguntas_Saber_Sesion2 WHERE codigo_estudiante = ' '''' codigo_simulacro ''''  'AND Identificacion_Prueba = ' '''' simulacro ''''  'AND sesion = ' '''' bd_sesion '''']);
+                 e = fetch(e);
+                 close(e)
+                 % Set preferences with setdbprefs.
+                 s.DataReturnFormat = 'cellarray';
+                 s.ErrorHandling = 'store';
+                 s.NullNumberRead = 'NaN';
+                 s.NullNumberWrite = 'NaN';
+                 s.NullStringRead = 'null';
+                 s.NullStringWrite = 'null';
+                 s.JDBCDataSourceFile = '';
+                 s.UseRegistryForSources = 'yes';
+                 s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+                 s.DefaultRowPreFetch = '10000';
+                 setdbprefs(s)
+                 % Make connection to database.  Note that the password has been omitted.
+                 % Using ODBC driver.
+                 conn = database('MS Access Database','','password');
+                 % Write data to database.
+                 insert(conn,'Preguntas_Saber_Sesion2',{'codigo_estudiante','Identificacion_Prueba','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 %insert(conn,'Copia_Preguntas_Saber_Sesion2',{'codigo_estudiante','sesion','preg1','preg2','preg3','preg4','preg5','preg6','preg7','preg8','preg9','preg10','preg11','preg12','preg13','preg14','preg15','preg16','preg17','preg18','preg19','preg20','preg21','preg22','preg23','preg24','preg25','preg26','preg27','preg28','preg29','preg30','preg31','preg32','preg33','preg34','preg35','preg36','preg37','preg38','preg39','preg40','preg41','preg42','preg43','preg44','preg45','preg46','preg47','preg48','preg49','preg50','preg51','preg52','preg53','preg54','preg55','preg56','preg57','preg58','preg59','preg60','preg61','preg62','preg63','preg64','preg65','preg66','preg67','preg68','preg69','preg70','preg71','preg72','preg73','preg74','preg75','preg76','preg77','preg78','preg79','preg80','preg81','preg82','preg83','preg84','preg85','preg86','preg87','preg88','preg89','preg90','preg91','preg92','preg93','preg94','preg95','preg96','preg97','preg98','preg99','preg100','preg101','preg102','preg103','preg104','preg105','preg106','preg107','preg108','preg109','preg110','preg111','preg112','preg113','preg114','preg115','preg116','preg117','preg118','preg119','preg120','preg121','preg122','preg123','preg124','preg125','preg126','preg127','preg128','preg129','preg130','preg131','preg132','preg133','preg134','preg135','preg136','preg137','preg138','preg139','preg140','preg141','preg142'},bd)
+                 % Close database connection.
+                 close(conn)
+                 similar=[];
+                 codigo='';
+                 AUX1=[];
+                 acumulado_respuestas=[];
+             end;
+        end;  
+        
+        codigo_aux= num2str(CODIGOS(1));
+        a=codigo_aux(2);
+        b=codigo_aux(3);
+        c=codigo_aux(4);
+        d=codigo_aux(5);
+        e=codigo_aux(6);
+        codigo_colegio=[a b c];
+        grupo =[d e];
+        
+        s.DataReturnFormat = 'cellarray';
+        s.ErrorHandling = 'store';
+        s.NullNumberRead = 'NaN';
+        s.NullNumberWrite = 'NaN';
+        s.NullStringRead = 'null';
+        s.NullStringWrite = 'null';
+        s.JDBCDataSourceFile = '';
+        s.UseRegistryForSources = 'yes';
+        s.TempDirForRegistryOutput = 'C:\Users\neyder\AppData\Local\Temp';
+        s.DefaultRowPreFetch = '10000';
+        setdbprefs(s)
+        conn = database('MS Access Database','','password');
+        % Read data from database.
+        e = exec(conn,['UPDATE Reportar_Ingresos SET Fecha_Analizar = ' '''' fecha '''' ' WHERE Codigo_Colegio = ' '''' codigo_colegio ''''  'AND Grupo = ' '''' grupo '''' 'AND Codigo_Simulacro = ' '''' tipo '''']);
+        e = fetch(e);
+        close(e)
+        clear agrupar columnas_preguntas numero_respuesta pregunta recorte b Ne AUX1 a acumulado_respuestas aux be dilatar fotos i imagenes  primeras primeras_22 C CODIGOS Elcodigo agrupas ano bd c codigo codigo_aux codigo_colegio conn d dia e fecha grupo mes pathname pepe_preguntas pepe_simulacros s similar sinresultados tipo x
+        set(handles.mensaje,'Visible','on');
+        guidata(hObject,handles);
+        
     elseif  handles.TipoPrueba == 2
         % PERFIL PROFESIONAL..
     else     
