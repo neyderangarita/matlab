@@ -1,20 +1,20 @@
 function [numero_respuesta]=clasificacion_tusaber(pregunta, opciones,Numero_pregunta,corte)  
 
-        if corte==1
+        if corte==1 
                Largo_pregunta=size(pregunta,2); 
                Alto_Pregunta=size(pregunta,1)/opciones;   
         else
                Largo_pregunta=size(pregunta,2); 
                Alto_Pregunta=size(pregunta,1)/opciones;  
         end
-           for b=1:opciones
+           for b=1:opciones 
                if b==1  
                         Individuales_pregunta = imcrop(pregunta,[0 0 Largo_pregunta Alto_Pregunta]);
                         Individuales_pregunta = bwareaopen(Individuales_pregunta,100);
                         %figure, imshow(Individuales_pregunta);
                         [L Ne]=bwlabel(Individuales_pregunta);
                         if Ne==0
-                            break
+                            break 
                         else  
                             propied = regionprops(L); 
                             Estructura(b,1).Opcion =  propied; 
@@ -25,7 +25,7 @@ function [numero_respuesta]=clasificacion_tusaber(pregunta, opciones,Numero_preg
                         Individuales_pregunta = bwareaopen(Individuales_pregunta,100);
                         %figure, imshow(Individuales_pregunta);
                         [L Ne]=bwlabel(Individuales_pregunta);
-                        if Ne==0
+                        if Ne==0 
                             break
                         else 
                         propied = regionprops(L); 
@@ -71,5 +71,5 @@ else
              else 
                  numero_respuesta=max(Respuestas_Pregunta);
              end
-       
+        
 end 

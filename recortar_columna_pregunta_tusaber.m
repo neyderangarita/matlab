@@ -13,8 +13,8 @@ else
         pregunta = imcrop(dilatar{recorte},[0 0 Largo_pregunta Ancho_Pregunta]);
         %figure, imshow(pregunta);
     else
-        pregunta = imcrop(dilatar{recorte},[(Largo_pregunta *(b-1)) 0  Largo_pregunta Ancho_Pregunta]);
+        pregunta = imcrop(dilatar{recorte},[(Largo_pregunta *(b-1))+5  0  Largo_pregunta Ancho_Pregunta]);
         %figure, imshow(pregunta);
     end;  
-end;
-clear b   
+end; 
+clear b     

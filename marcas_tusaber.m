@@ -7,7 +7,7 @@ function [dilatar]=marcas_tusaber(img1)
 foto_marcas=~im2bw(gris1,umbral1);
 binaria2=~im2bw(gris2,umbral2); 
 %figure, imshow(binaria2);
-marcas_filtrada = bwareaopen(foto_marcas,700); 
+marcas_filtrada = bwareaopen(foto_marcas,700);  
 clear  foto_marcas gris1 gris2  img1 umbral1 umbral2      
 [L Ne]=bwlabel(marcas_filtrada);  
 %figure, imshow(label2rgb(L));   
@@ -23,34 +23,34 @@ end;
 ImagenRecortar = propied(ind);    
 clear centroideY pepe propied ind tmp n Ne L
 
- 
- for n=1:3
+  
+ for n=1:3 
     if n==1 
-        xmin = ImagenRecortar(n+2).BoundingBox(1)+ImagenRecortar(n+2).BoundingBox(3) +15;
-        ymin = ImagenRecortar(n+2).BoundingBox(2)+ImagenRecortar(n+2).BoundingBox(4);
-        ancho =  266; 
-        alto =  302;  
-        gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]); 
-        %figure,imshow(gris_crop3{n})
-     elseif n==2     
-        xmin = ImagenRecortar(n-1).BoundingBox(1)+ImagenRecortar(n-1).BoundingBox(3) - 9;
-        ymin = ImagenRecortar(n-1).BoundingBox(2)+ImagenRecortar(n-1).BoundingBox(4) + 28;
-        ancho = 1015;
-        alto =  161; 
+        xmin = ImagenRecortar(n+2).BoundingBox(1) + ImagenRecortar(n+2).BoundingBox(3) + 15;
+        ymin = ImagenRecortar(n+2).BoundingBox(2) + ImagenRecortar(n+2).BoundingBox(3);
+        ancho = ImagenRecortar(n+3).BoundingBox(1) - ImagenRecortar(n+2).BoundingBox(1) - 57; 
+        alto = ImagenRecortar(n+3).BoundingBox(2) - ImagenRecortar(n+2).BoundingBox(3) - 33;  
+        gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);   
+        %figure,imshow(gris_crop3{n}) 
+     elseif n==2      
+        xmin = ImagenRecortar(n-1).BoundingBox(1) + ImagenRecortar(n-1).BoundingBox(4) + 67;
+        ymin = ImagenRecortar(n-1).BoundingBox(2) + (ImagenRecortar(n-1).BoundingBox(4) * 2) - 5;
+        ancho = ImagenRecortar(n+3).BoundingBox(1) - ImagenRecortar(n-1).BoundingBox(1) - 162;  
+        alto =  ImagenRecortar(n+3).BoundingBox(2) - ImagenRecortar(n-1).BoundingBox(2) - (ImagenRecortar(n-1).BoundingBox(4) * 2) - 3;  
+        gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);      
+        %figure,imshow(gris_crop3{n})    
+     elseif n==3
+        xmin = ImagenRecortar(n-1).BoundingBox(1) + ImagenRecortar(n-1).BoundingBox(3) - 15 + 122;
+        ymin = ImagenRecortar(n-1).BoundingBox(2) + (ImagenRecortar(n-1).BoundingBox(4) * 2) - 3;
+        ancho = ImagenRecortar(n+3).BoundingBox(1) - ImagenRecortar(n-1).BoundingBox(1) - 12 - 229;
+        alto =  ImagenRecortar(n+3).BoundingBox(2) - ImagenRecortar(n-1).BoundingBox(2) - (ImagenRecortar(n-1).BoundingBox(4) * 2) - 3;
         gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);     
         %figure,imshow(gris_crop3{n})  
-     elseif n==3
-        xmin = ImagenRecortar(n-1).BoundingBox(1)+ImagenRecortar(n-1).BoundingBox(3) - 13;
-        ymin = ImagenRecortar(n-1).BoundingBox(2)+ImagenRecortar(n-1).BoundingBox(4) + 28;
-        ancho = 1015;
-        alto =  161;
-        gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);     
-        %figure,imshow(gris_crop3{n})
-    end;   
- end; 
- 
+    end;     
+ end;   
+  
  for n=1:3  
     dilatar{n}= bwareaopen(gris_crop3{n}, 25);
     %figure, imshow(dilatar{n}); 
- end,    
+ end,     
 clear  binaria2 n ymin xmin recortada n marcas_filtrada gris_crop3 ancho ImagenRecortar   

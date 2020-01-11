@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="analizador3" location="D:\analizar" file="D:\analizar\analizador3.prj" preferred-package-type="package.type.exe" build-checksum="1052350518" preferred-package-location="C:\Users\sistemas\Desktop\neyder\05022015">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="analizador3" location="D:\analizar" file="D:\analizar\analizador3.prj" preferred-package-type="package.type.exe" build-checksum="165483558" preferred-package-location="C:\Users\sistemas\Desktop\neyder\05022015">
     <param.project.name>D:\analizar\analizador3.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>analizador3</param.appname>
@@ -72,6 +72,7 @@
       <file>${PROJECT_ROOT}\clasificacion_Saber1011_nuevo.m</file>
       <file>${PROJECT_ROOT}\clasificacion_Saber1011_sesion1.m</file>
       <file>${PROJECT_ROOT}\clasificacion_Saber1011_sesion2_cuatro_abiertas.m</file>
+      <file>${PROJECT_ROOT}\clasificacion_tusaber_1y2.m</file>
       <file>${PROJECT_ROOT}\Componete_Flexible.m</file>
       <file>${PROJECT_ROOT}\index.jpg</file>
       <file>${PROJECT_ROOT}\marcas_identificar_sesion.m</file>
@@ -83,6 +84,7 @@
       <file>${PROJECT_ROOT}\marcas_saber1011_nuevo.m</file>
       <file>${PROJECT_ROOT}\marcas_saber1011_sesion1.m</file>
       <file>${PROJECT_ROOT}\marcas_sesion.m</file>
+      <file>${PROJECT_ROOT}\marcas_tusaber3.m</file>
       <file>${PROJECT_ROOT}\recortar_columna_pregunta.m</file>
       <file>${PROJECT_ROOT}\recortar_columna_pregunta_Niveles.m</file>
       <file>${PROJECT_ROOT}\recortar_columna_pregunta_sin_area.m</file>

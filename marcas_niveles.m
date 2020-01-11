@@ -40,7 +40,7 @@ clear L Ne marcas_filtrada
         ancho = (ImagenRecortar(n+1).BoundingBox(1) - (ImagenRecortar(n).BoundingBox(1)+ImagenRecortar(n).BoundingBox(3))) - 80;
         alto = (ImagenRecortar(n+1).BoundingBox(2)-ImagenRecortar(n).BoundingBox(2)-ImagenRecortar(n).BoundingBox(3))-75;
         gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);     
-        %figure,imshow(gris_crop3{n}) 
+        %figure,        imshow(gris_crop3{n}) 
      
     elseif n==2
         xmin = ImagenRecortar(n+1).BoundingBox(1)+ImagenRecortar(n+1).BoundingBox(3) + 160;

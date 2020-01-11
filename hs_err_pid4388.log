@@ -1,0 +1,362 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x64fa65f5, pid=4388, tid=3408
+#
+# JRE version: 6.0_17-b04
+# Java VM: Java HotSpot(TM) Client VM (14.3-b01 mixed mode windows-x86 )
+# Problematic frame:
+# C  0x64fa65f5
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x05f8b400):  JavaThread "main" [_thread_in_native, id=3408, stack(0x00990000,0x01190000)]
+
+siginfo: ExceptionCode=0xc0000005, writing address 0x00000000
+
+Registers:
+EAX=0x64fa65f3, EBX=0x0118552c, ECX=0x00000000, EDX=0x00000000
+ESP=0x01185258, EBP=0x01185974, ESI=0x6536b9f8, EDI=0x01185968
+EIP=0x64fa65f5, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x01185258)
+0x01185258:   73e9d637 01185968 6536b9f8 01185274
+0x01185268:   01185968 0118552c 01185974 011852a0
+0x01185278:   73e9e892 64fa65f3 01185968 00000100
+0x01185288:   0118530c 73e9ea80 bf328718 6536b9d4
+0x01185298:   01185968 00000001 0118531c 73e93708
+0x011852a8:   01185968 6536b9d4 64fa65f3 00000000
+0x011852b8:   00000100 bf32868c 01185968 6536b9f8
+0x011852c8:   0118552c 0118590c 00000000 00000001 
+
+Instructions: (pc=0x64fa65f5)
+0x64fa65e5:   c3 8b 0e 89 0f 8b 01 ff 10 e9 c1 fc e9 ff 33 c9
+0x64fa65f5:   c7 05 00 00 00 00 01 00 00 00 cd 29 33 c0 83 f9 
+
+
+Stack: [0x00990000,0x01190000],  sp=0x01185258,  free space=8148k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x64fa65f5
+C  0x64e45910
+C  0x64e454aa
+C  0x648a9935
+C  0x63aed25f
+C  0x63aed233
+C  0x63aed17b
+C  0x5e1c2071
+C  0x5e1c1fa1
+C  0x0919402e
+C  0x09193689
+C  0x250e9782
+C  0x250ebc24
+C  0x250e3141
+C  0x6d374df2
+j  sun.jdbc.odbc.JdbcOdbc.driverConnect(J[B[B)V+0
+j  sun.jdbc.odbc.JdbcOdbc.SQLDriverConnect(JLjava/lang/String;)V+93
+j  sun.jdbc.odbc.JdbcOdbcConnection.initialize(Ljava/lang/String;Ljava/util/Properties;I)V+984
+j  sun.jdbc.odbc.JdbcOdbcDriver.connect(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/Connection;+129
+j  java.sql.DriverManager.getConnection(Ljava/lang/String;Ljava/util/Properties;Ljava/lang/ClassLoader;)Ljava/sql/Connection;+210
+j  java.sql.DriverManager.getConnection(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/Connection;+7
+j  com.mathworks.toolbox.database.databaseConnect.makeDatabaseConnection()Ljava/util/Vector;+231
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xecf9c]
+V  [jvm.dll+0x1741d1]
+V  [jvm.dll+0xed01d]
+V  [jvm.dll+0xf5e2f]
+V  [jvm.dll+0xf79b7]
+C  [jmi.dll+0x139de]
+C  [jmi.dll+0x1e2dc]
+C  [jmi.dll+0x1e6d9]
+C  [jmi.dll+0x2b10e]
+C  [jmi.dll+0x2b208]
+C  [mcos.dll+0x4e126]
+C  [m_dispatcher.dll+0x11c35]
+C  [m_dispatcher.dll+0x118cf]
+C  [m_interpreter.dll+0x713e6]
+C  [m_interpreter.dll+0x6e200]
+C  [m_interpreter.dll+0x7f677]
+C  [m_interpreter.dll+0x7f792]
+C  [m_interpreter.dll+0x76580]
+C  [m_interpreter.dll+0x74307]
+C  [m_interpreter.dll+0x7ac79]
+C  [m_dispatcher.dll+0x114b8]
+C  [m_dispatcher.dll+0x118cf]
+C  [m_interpreter.dll+0x713e6]
+C  [m_interpreter.dll+0x6e200]
+C  [m_interpreter.dll+0x7f677]
+C  [m_interpreter.dll+0x7f792]
+C  [m_interpreter.dll+0x76580]
+C  [m_interpreter.dll+0x74307]
+C  [m_interpreter.dll+0x7ac79]
+C  [m_dispatcher.dll+0x114b8]
+C  [m_dispatcher.dll+0x118cf]
+C  [m_dispatcher.dll+0x150b4]
+C  [m_dispatcher.dll+0x120d1]
+C  [libmx.dll+0x2c204]
+C  [m_interpreter.dll+0xb905c]
+C  [m_dispatcher.dll+0x11db5]
+C  [m_dispatcher.dll+0x11d3b]
+C  [m_dispatcher.dll+0x117aa]
+C  [m_interpreter.dll+0x713e6]
+C  [m_interpreter.dll+0x6e200]
+C  [m_interpreter.dll+0x7f677]
+C  [m_interpreter.dll+0x7f792]
+C  [m_interpreter.dll+0x76580]
+C  [m_interpreter.dll+0x74307]
+C  [m_interpreter.dll+0x7ac79]
+C  [m_dispatcher.dll+0x114b8]
+C  [m_dispatcher.dll+0x118cf]
+C  [m_interpreter.dll+0x713e6]
+C  [m_interpreter.dll+0x6e200]
+C  [m_interpreter.dll+0x7f677]
+C  [m_interpreter.dll+0x7f792]
+C  [m_interpreter.dll+0x76580]
+C  [m_interpreter.dll+0x74307]
+C  [m_interpreter.dll+0x7ac79]
+C  [m_dispatcher.dll+0x114b8]
+C  [m_dispatcher.dll+0x118cf]
+C  [m_interpreter.dll+0x713e6]
+C  [m_interpreter.dll+0x6e200]
+C  [m_interpreter.dll+0x7f677]
+C  [m_interpreter.dll+0x7f792]
+C  [m_interpreter.dll+0x76580]
+C  [m_interpreter.dll+0x74307]
+C  [m_interpreter.dll+0x7abe7]
+C  [m_dispatcher.dll+0x1288a]
+C  [m_dispatcher.dll+0x12bce]
+C  [m_dispatcher.dll+0x120d1]
+C  [libmx.dll+0x2c204]
+C  [m_interpreter.dll+0xb905c]
+C  [libmwgui.dll+0x38ed2]
+C  [libmwgui.dll+0x396a8]
+C  [libmwgui.dll+0x39773]
+C  [hg.dll+0x3b69f]
+C  [hg.dll+0x3c48a]
+C  [hg.dll+0x10f34b]
+C  [hg.dll+0x10ff84]
+C  [hg.dll+0xc0f84]
+C  [hg.dll+0xb7dff]
+...<more frames>...
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  sun.jdbc.odbc.JdbcOdbc.driverConnect(J[B[B)V+0
+j  sun.jdbc.odbc.JdbcOdbc.SQLDriverConnect(JLjava/lang/String;)V+93
+j  sun.jdbc.odbc.JdbcOdbcConnection.initialize(Ljava/lang/String;Ljava/util/Properties;I)V+984
+j  sun.jdbc.odbc.JdbcOdbcDriver.connect(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/Connection;+129
+j  java.sql.DriverManager.getConnection(Ljava/lang/String;Ljava/util/Properties;Ljava/lang/ClassLoader;)Ljava/sql/Connection;+210
+j  java.sql.DriverManager.getConnection(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/Connection;+7
+j  com.mathworks.toolbox.database.databaseConnect.makeDatabaseConnection()Ljava/util/Vector;+231
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x230f8400 JavaThread "Inactive RequestProcessor thread [Was:TimedSoftReference/org.openide.util.TimedSoftReference]" daemon [_thread_blocked, id=4860, stack(0x05ae0000,0x05b60000)]
+  0x230f6400 JavaThread "Code Analyzer updating thread" [_thread_blocked, id=5304, stack(0x05b60000,0x05be0000)]
+  0x230f9400 JavaThread "Foxtrot Multi Worker Thread Runner #1" daemon [_thread_blocked, id=1212, stack(0x24fa0000,0x25020000)]
+  0x230fcc00 JavaThread "RequestQueue for GenericFileList" [_thread_blocked, id=2908, stack(0x24580000,0x24600000)]
+  0x230f8800 JavaThread "Code Analyzer updating thread" [_thread_blocked, id=4956, stack(0x24270000,0x242f0000)]
+  0x1cf83000 JavaThread "Active Reference Queue Daemon" daemon [_thread_blocked, id=3552, stack(0x241f0000,0x24270000)]
+  0x1cf82000 JavaThread "Timer-7" daemon [_thread_blocked, id=5436, stack(0x24170000,0x241f0000)]
+  0x1cf82400 JavaThread "Timer-6" daemon [_thread_blocked, id=3388, stack(0x23010000,0x23090000)]
+  0x1cf83800 JavaThread "Prefs Updater" daemon [_thread_blocked, id=4488, stack(0x22e30000,0x22eb0000)]
+  0x1cf81400 JavaThread "Timer-1" [_thread_blocked, id=2856, stack(0x22db0000,0x22e30000)]
+  0x1cf80800 JavaThread "FelixPackageAdmin" daemon [_thread_blocked, id=6076, stack(0x20a00000,0x20a80000)]
+  0x1cf80c00 JavaThread "FelixStartLevel" daemon [_thread_blocked, id=1528, stack(0x20980000,0x20a00000)]
+  0x1cd57800 JavaThread "FelixDispatchQueue" daemon [_thread_blocked, id=2784, stack(0x20900000,0x20980000)]
+  0x1cd4a400 JavaThread "TimerQueue" daemon [_thread_blocked, id=4764, stack(0x1de00000,0x1de80000)]
+  0x1cd3a400 JavaThread "AWT-EventQueue-0" [_thread_blocked, id=3532, stack(0x1d440000,0x1d4c0000)]
+  0x1ccf5800 JavaThread "com.google.common.base.internal.Finalizer" daemon [_thread_blocked, id=2008, stack(0x1d3c0000,0x1d440000)]
+  0x1cabe400 JavaThread "AWT-Windows" daemon [_thread_in_native, id=4132, stack(0x1d2c0000,0x1d340000)]
+  0x1cabdc00 JavaThread "AWT-Shutdown" [_thread_blocked, id=1868, stack(0x1c390000,0x1c410000)]
+  0x1cab9800 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=2452, stack(0x1c310000,0x1c390000)]
+  0x1c0a3c00 JavaThread "Timer-0" [_thread_blocked, id=1240, stack(0x0ff00000,0x0ff80000)]
+  0x1c07a400 JavaThread "JMI Unnamed Thread" [_thread_in_native, id=3728, stack(0x06840000,0x07040000)]
+  0x0b578400 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=2016, stack(0x0f4f0000,0x0f570000)]
+  0x0b578000 JavaThread "CompilerThread0" daemon [_thread_blocked, id=5836, stack(0x0ecf0000,0x0f4f0000)]
+  0x0b572400 JavaThread "Attach Listener" daemon [_thread_blocked, id=3180, stack(0x0ec70000,0x0ecf0000)]
+  0x0b550800 JavaThread "Finalizer" daemon [_thread_blocked, id=4300, stack(0x0ebf0000,0x0ec70000)]
+  0x0b54f400 JavaThread "Reference Handler" daemon [_thread_blocked, id=2096, stack(0x0eb70000,0x0ebf0000)]
+=>0x05f8b400 JavaThread "main" [_thread_in_native, id=3408, stack(0x00990000,0x01190000)]
+
+Other Threads:
+  0x0b54c800 VMThread [stack: 0x0e370000,0x0eb70000] [id=3468]
+  0x0b587400 WatcherThread [stack: 0x0f570000,0x0fd70000] [id=4588]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 21248K, used 9436K [0x10010000, 0x11710000, 0x12010000)
+  eden space 18944K,  37% used [0x10010000, 0x107073b8, 0x11290000)
+  from space 2304K, 100% used [0x11290000, 0x114d0000, 0x114d0000)
+  to   space 2304K,   0% used [0x114d0000, 0x114d0000, 0x11710000)
+ tenured generation   total 70428K, used 45877K [0x12010000, 0x164d7000, 0x18010000)
+   the space 70428K,  65% used [0x12010000, 0x14cdd460, 0x14cdd600, 0x164d7000)
+ compacting perm gen  total 41728K, used 41696K [0x18010000, 0x1a8d0000, 0x1c010000)
+   the space 41728K,  99% used [0x18010000, 0x1a8c8040, 0x1a8c8200, 0x1a8d0000)
+No shared spaces configured.
+
+Dynamic libraries:
+0x00960000 - 0x00985000 	C:\Program Files\MATLAB\R2011a\bin\win32\MATLAB.exe
+0x77e80000 - 0x77fe7000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x77cd0000 - 0x77dc8000 	C:\WINDOWS\system32\KERNEL32.DLL
+0x755c0000 - 0x7567d000 	C:\WINDOWS\system32\KERNELBASE.dll
+0x7ef10000 - 0x7efcd000 	C:\Program Files\MATLAB\R2011a\bin\win32\libut.dll
+0x7ee50000 - 0x7ef07000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwfl.dll
+0x01190000 - 0x0132b000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwservices.dll
+0x7f270000 - 0x7f2f9000 	C:\Program Files\MATLAB\R2011a\bin\win32\mcr.dll
+0x007d0000 - 0x0085e000 	C:\WINDOWS\WinSxS\x86_microsoft.vc90.crt_1fc8b3b9a1e18e3b_9.0.30729.6871_none_50944e7cbcb706e5\MSVCP90.dll
+0x00860000 - 0x00903000 	C:\WINDOWS\WinSxS\x86_microsoft.vc90.crt_1fc8b3b9a1e18e3b_9.0.30729.6871_none_50944e7cbcb706e5\MSVCR90.dll
+0x7dce0000 - 0x7dd35000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwi18n.dll
+0x73d00000 - 0x73d0e000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_date_time-vc90-mt-1_40.dll
+0x73f70000 - 0x73f77000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_system-vc90-mt-1_40.dll
+0x73d10000 - 0x73d1f000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_thread-vc90-mt-1_40.dll
+0x7ea10000 - 0x7eb35000 	C:\Program Files\MATLAB\R2011a\bin\win32\icuuc42.dll
+0x73db0000 - 0x73dbe000 	C:\Program Files\MATLAB\R2011a\bin\win32\icuio42.dll
+0x76730000 - 0x76736000 	C:\WINDOWS\system32\PSAPI.DLL
+0x01330000 - 0x01459000 	C:\WINDOWS\SYSTEM32\dbghelp.dll
+0x77dd0000 - 0x77e7e000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x76600000 - 0x76721000 	C:\WINDOWS\system32\USER32.dll
+0x10000000 - 0x10009000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwresource_core.dll
+0x01460000 - 0x014d7000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwMATLAB_res.dll
+0x736b0000 - 0x736c3000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_filesystem-vc90-mt-1_40.dll
+0x73c80000 - 0x73c8f000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_signals-vc90-mt-1_40.dll
+0x769b0000 - 0x769c2000 	C:\WINDOWS\system32\imagehlp.dll
+0x7db50000 - 0x7dbb9000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmx.dll
+0x7e800000 - 0x7e8ee000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwmathutil.dll
+0x704e0000 - 0x7051b000 	C:\Program Files\MATLAB\R2011a\bin\win32\mpath.dll
+0x72990000 - 0x72b75000 	C:\Program Files\MATLAB\R2011a\bin\win32\mlutil.dll
+0x75680000 - 0x75707000 	C:\WINDOWS\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.9200.16384_none_bf100cd445f4d954\COMCTL32.dll
+0x75e40000 - 0x75ec9000 	C:\WINDOWS\system32\COMDLG32.dll
+0x742e0000 - 0x742f2000 	C:\WINDOWS\SYSTEM32\NETAPI32.dll
+0x767a0000 - 0x767f0000 	C:\WINDOWS\system32\WS2_32.dll
+0x00690000 - 0x006c3000 	C:\Program Files\MATLAB\R2011a\bin\win32\tbb.dll
+0x76b30000 - 0x77bf5000 	C:\WINDOWS\system32\SHELL32.dll
+0x75b40000 - 0x75c59000 	C:\WINDOWS\system32\ole32.dll
+0x76420000 - 0x764ab000 	C:\WINDOWS\system32\OLEAUT32.dll
+0x7d4b0000 - 0x7d547000 	C:\Program Files\MATLAB\R2011a\bin\win32\iqm.dll
+0x7e1c0000 - 0x7e1e3000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwbridge.dll
+0x73b80000 - 0x73b8d000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmex.dll
+0x014e0000 - 0x01551000 	C:\Program Files\MATLAB\R2011a\bin\win32\m_dispatcher.dll
+0x01560000 - 0x016d7000 	C:\Program Files\MATLAB\R2011a\bin\win32\mcos.dll
+0x016e0000 - 0x017e1000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwgui.dll
+0x017f0000 - 0x01d6c000 	C:\Program Files\MATLAB\R2011a\bin\win32\hg.dll
+0x01d70000 - 0x01dea000 	C:\Program Files\MATLAB\R2011a\bin\win32\hgutils.dll
+0x01df0000 - 0x022ba000 	C:\Program Files\MATLAB\R2011a\bin\win32\m_interpreter.dll
+0x022c0000 - 0x0231a000 	C:\Program Files\MATLAB\R2011a\bin\win32\jmi.dll
+0x02320000 - 0x0239a000 	C:\Program Files\MATLAB\R2011a\bin\win32\udd_mi.dll
+0x74dc0000 - 0x75053000 	C:\Program Files\MATLAB\R2011a\bin\win32\uiw.dll
+0x71310000 - 0x71323000 	C:\Program Files\MATLAB\R2011a\bin\win32\mwoles05.DLL
+0x023a0000 - 0x023eb000 	C:\Program Files\MATLAB\R2011a\bin\win32\comcli.dll
+0x73b70000 - 0x73b79000 	C:\Program Files\MATLAB\R2011a\bin\win32\mlautoregister.dll
+0x00920000 - 0x0092a000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_iostreams-vc90-mt-1_40.dll
+0x76220000 - 0x7632a000 	C:\WINDOWS\system32\GDI32.dll
+0x73550000 - 0x7356f000 	C:\Program Files\MATLAB\R2011a\bin\win32\LIBEXPAT.dll
+0x72eb0000 - 0x73009000 	C:\Program Files\MATLAB\R2011a\bin\win32\icuin42.dll
+0x02410000 - 0x03357000 	C:\Program Files\MATLAB\R2011a\bin\win32\icudt42.dll
+0x75a80000 - 0x75b31000 	C:\WINDOWS\system32\msvcrt.dll
+0x75e00000 - 0x75e34000 	C:\WINDOWS\SYSTEM32\sechost.dll
+0x76340000 - 0x76412000 	C:\WINDOWS\system32\RPCRT4.dll
+0x73730000 - 0x73743000 	C:\Program Files\MATLAB\R2011a\bin\win32\zlib1.dll
+0x033f0000 - 0x0344d000 	C:\Program Files\MATLAB\R2011a\bin\win32\xmlcore.dll
+0x71cf0000 - 0x71ea2000 	C:\Program Files\MATLAB\R2011a\bin\win32\xerces-c_2_7.dll
+0x77c90000 - 0x77cd0000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x74a40000 - 0x74a4b000 	C:\WINDOWS\SYSTEM32\netutils.dll
+0x75150000 - 0x7516c000 	C:\WINDOWS\SYSTEM32\srvcli.dll
+0x742b0000 - 0x742c0000 	C:\WINDOWS\SYSTEM32\wkscli.dll
+0x76330000 - 0x76338000 	C:\WINDOWS\system32\NSI.dll
+0x75cc0000 - 0x75df6000 	C:\WINDOWS\SYSTEM32\combase.dll
+0x03480000 - 0x03508000 	C:\Program Files\MATLAB\R2011a\bin\win32\udd.dll
+0x7f130000 - 0x7f1cc000 	C:\Program Files\MATLAB\R2011a\bin\win32\boost_regex-vc90-mt-1_40.dll
+0x71150000 - 0x71162000 	C:\Program Files\MATLAB\R2011a\bin\win32\graphics_util.dll
+0x7e040000 - 0x7e078000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmat.dll
+0x03560000 - 0x0358d000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwhardcopy.dll
+0x03590000 - 0x035ce000 	C:\Program Files\MATLAB\R2011a\bin\win32\libuij.dll
+0x035d0000 - 0x0370d000 	C:\Program Files\MATLAB\R2011a\bin\win32\hgdatatypes.dll
+0x03710000 - 0x03745000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwlapack.dll
+0x03750000 - 0x03aec000 	C:\WINDOWS\WinSxS\x86_microsoft.vc90.mfc_1fc8b3b9a1e18e3b_9.0.30729.4974_none_4bf89ae8bf9a48c0\mfc90.dll
+0x03af0000 - 0x03b50000 	C:\WINDOWS\SYSTEM32\WINSPOOL.DRV
+0x03b70000 - 0x03bc8000 	C:\Program Files\MATLAB\R2011a\bin\win32\profiler.dll
+0x734f0000 - 0x73513000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwmathrng.dll
+0x70cf0000 - 0x70d04000 	C:\Program Files\MATLAB\R2011a\bin\win32\m_pcodeio.dll
+0x7e080000 - 0x7e0c5000 	C:\Program Files\MATLAB\R2011a\bin\win32\m_ir.dll
+0x03bd0000 - 0x040f8000 	C:\Program Files\MATLAB\R2011a\bin\win32\m_parser.dll
+0x708e0000 - 0x70900000 	C:\Program Files\MATLAB\R2011a\bin\win32\m_pcodegen.dll
+0x04100000 - 0x04145000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwspmatrix.dll
+0x04160000 - 0x0416b000 	C:\Program Files\MATLAB\R2011a\bin\win32\nativejava_services.dll
+0x71300000 - 0x71309000 	C:\Program Files\MATLAB\R2011a\bin\win32\uinone.dll
+0x041a0000 - 0x041cb000 	C:\WINDOWS\WinSxS\x86_microsoft.vc90.atl_1fc8b3b9a1e18e3b_9.0.30729.4974_none_51cdc180bbe4500f\ATL90.DLL
+0x04280000 - 0x04447000 	C:\Program Files\MATLAB\R2011a\bin\win32\libhdf5.dll
+0x71240000 - 0x7124e000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwbinder.dll
+0x70cc0000 - 0x70cc9000 	C:\Program Files\MATLAB\R2011a\bin\win32\libmwompwrapper.dll
+0x73eb0000 - 0x73eb6000 	C:\WINDOWS\SYSTEM32\MSIMG32.dll
+0x044e0000 - 0x044f2000 	C:\Program Files\MATLAB\R2011a\bin\win32\ir_xfmr.dll
+0x704a0000 - 0x704aa000 	C:\Program Files\MATLAB\R2011a\bin\win32\mtok.dll
+0x76ab0000 - 0x76b25000 	C:\WINDOWS\system32\SHCORE.DLL
+0x764b0000 - 0x764db000 	C:\WINDOWS\system32\IMM32.DLL
+0x769d0000 - 0x76aac000 	C:\WINDOWS\system32\MSCTF.dll
+0x746b0000 - 0x74757000 	C:\WINDOWS\SYSTEM32\UxTheme.dll
+0x04710000 - 0x04729000 	C:\WINDOWS\SYSTEM32\dwmapi.dll
+0x04740000 - 0x0474f000 	C:\WINDOWS\WinSxS\x86_microsoft.vc90.mfcloc_1fc8b3b9a1e18e3b_9.0.30729.4974_none_497745fb754785d2\MFC90ESN.DLL
+0x05e40000 - 0x05e5d000 	C:\Program Files\MATLAB\R2011a\bin\win32\tbbmalloc.dll
+0x754d0000 - 0x754e1000 	C:\WINDOWS\SYSTEM32\profapi.dll
+0x72dc0000 - 0x72de2000 	C:\WINDOWS\SYSTEM32\iphlpapi.dll
+0x72d90000 - 0x72d98000 	C:\WINDOWS\SYSTEM32\WINNSI.DLL
+0x74ce0000 - 0x74d55000 	C:\WINDOWS\SYSTEM32\DNSAPI.dll
+0x71f90000 - 0x71fa0000 	C:\WINDOWS\SYSTEM32\dhcpcsvc6.DLL
+0x72230000 - 0x72242000 	C:\WINDOWS\SYSTEM32\dhcpcsvc.DLL
+0x05e90000 - 0x05e93000 	C:\WINDOWS\SYSTEM32\icmp.Dll
+0x75360000 - 0x75369000 	C:\WINDOWS\SYSTEM32\CRYPTBASE.dll
+0x75300000 - 0x75351000 	C:\WINDOWS\SYSTEM32\bcryptPrimitives.dll
+0x758c0000 - 0x75906000 	C:\WINDOWS\system32\cfgmgr32.dll
+0x0b240000 - 0x0b4cb000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\client\jvm.dll
+0x70c90000 - 0x70cb1000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x7d910000 - 0x7d966000 	C:\Program Files\MATLAB\R2011a\bin\win32\MSVCR71.dll
+0x70c60000 - 0x70c8a000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x70df0000 - 0x70e97000 	C:\WINDOWS\system32\apphelp.dll
+0x73da0000 - 0x73dac000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\verify.dll
+0x73570000 - 0x7358f000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\java.dll
+0x73f40000 - 0x73f48000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\hpi.dll
+0x73ce0000 - 0x73cef000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\zip.dll
+0x7daf0000 - 0x7db44000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\fontmanager.dll
+0x0fd70000 - 0x0feba000 	C:\Program Files\MATLAB\R2011a\sys\java\jre\win32\jre\bin\awt.dll
+0x1c470000 - 0x1c6b4000 	C:\WINDOWS\AppPatch\AcGenral.DLL
+0x752d0000 - 0x752f3000 	C:\WINDOWS\SYSTEM32\SspiCli.dll
+0x75460000 - 0x75472000 	C:\WINDOWS\SYSTEM32\samcli.dll
+0x0fec0000 - 0x0fed4000 	C:\WINDOWS\SYSTEM32\MSACM32.dll
+0x0fee0000 - 0x0fee8000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+
+VM Arguments:
+jvm_args: -Xss512k -XX:PermSize=32m -Xms64m -XX:NewRatio=3 -XX:MaxPermSize=64m -Xmx128m -XX:MaxDirectMemorySize=1200000000 -Dsun.java2d.noddraw=true -Dsun.awt.nopixfmt=true -Xshare:off -Xrs -Dsun.awt.disableMixing=true -Djava.library.path=C:\Program Files\MATLAB\R2011a\bin\win32 vfprintf abort 
+java_command: <unknown>
+Launcher Type: generic
+
+Environment Variables:
+PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\MATLAB\MATLAB Compiler Runtime\v715\runtime\win32;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\MATLAB\R2011a\runtime\win32;C:\Program Files\MATLAB\R2011a\bin
+USERNAME=CarlosAvila
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 37 Stepping 5, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows NT 6.2 Build 9200 
+
+CPU:total 4 (8 cores per cpu, 2 threads per core) family 6 model 37 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, ht
+
+Memory: 4k page, physical 3069804k(1412760k free), swap 3594092k(1638496k free)
+
+vm_info: Java HotSpot(TM) Client VM (14.3-b01) for windows-x86 JRE (1.6.0_17-b04), built on Oct 11 2009 00:52:06 by "java_re" with MS VC++ 7.1
+
+time: Thu Feb 22 17:04:22 2018
+elapsed time: 1258 seconds
+

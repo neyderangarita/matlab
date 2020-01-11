@@ -65,11 +65,11 @@ clear centroideY pepe propied ind tmp n Ne L
         gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);     
         %figure,imshow(gris_crop3{n})  
      elseif n==6
-        xmin = ImagenRecortar(n+5).BoundingBox(1)+ImagenRecortar(n+5).BoundingBox(3)-3;
-        ymin = ImagenRecortar(n+5).BoundingBox(2)+ImagenRecortar(n+5).BoundingBox(4);
-        ancho = 162;
-        alto =  139; 
-        gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);     
+        %xmin = ImagenRecortar(n+5).BoundingBox(1)+ImagenRecortar(n+5).BoundingBox(3)-3;
+        %ymin = ImagenRecortar(n+5).BoundingBox(2)+ImagenRecortar(n+5).BoundingBox(4);
+        %ancho = 162;
+        %alto =  139; 
+        %gris_crop3{n} = imcrop(binaria2,[xmin ,ymin , ancho, alto]);     
         %figure,imshow(gris_crop3{n}) 
         %elseif n==7
         %xmin = ImagenRecortar(n+5).BoundingBox(1)+ImagenRecortar(n+5).BoundingBox(3)-3;
